@@ -53,7 +53,7 @@ const Home: React.FC<HomeProps> = (props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      {/* <main className={styles.main}>
         <h1 className={styles.title}>Next.js & Prisma</h1>
         <h2 className={styles.subtitle}>Databases in Serverless Made Easy</h2>
         <div className={styles.buttons}>
@@ -112,7 +112,7 @@ const Home: React.FC<HomeProps> = (props) => {
             )
           })}
         </div>
-      </main>
+      </main> */}
     </div>
   )
 }

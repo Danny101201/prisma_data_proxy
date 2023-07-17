@@ -12,12 +12,12 @@ import prisma from 'lib/prisma'
 export const getStaticProps: GetStaticProps = async () => {
   const posts = await prisma.post.findMany({
     orderBy: {
-      id: 'desc',
-    },
+      id: 'desc'
+    }
   })
   return {
     props: {
-      posts,
+      posts
     },
     revalidate: 1
   }

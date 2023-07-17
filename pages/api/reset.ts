@@ -8,19 +8,19 @@ export default async function handle(
 ) {
   await prisma.post.deleteMany()
   const txs = []
-
-  for (const post of seedPosts) {
+  for (let seedPost of seedPosts) {
     txs.push(
       prisma.post.create({
         data: {
-          title: post.title,
-          excerpt: post.excerpt,
+          title: seedPost.title,
+          excerpt: seedPost.excerpt,
           comments: {
-            create: post.comments.map((comment) => ({ comment })),
-          },
-        },
-      }),
+            create: seedPost.comments.map(comment => ({ comment }))
+          }
+        }
+      })
     )
+
   }
   const createdPosts = await prisma.$transaction(txs)
 

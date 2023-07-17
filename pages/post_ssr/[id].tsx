@@ -11,22 +11,27 @@ import {
 const prisma = new PrismaClient()
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const matchedPost = await prisma.post.findUnique({
+  const matchPost = await prisma.post.findUnique({
     where: {
-      id: Number(params?.id),
+      id: Number(params?.id)
     },
     include: {
       comments: {
         orderBy: {
-          id: 'asc',
-        },
-      },
-    },
+          id: 'desc'
+        }
+      }
+    }
   })
+  if (!matchPost) {
+    return {
+      notFound: true
+    }
+  }
   return {
     props: {
-      post: matchedPost,
-    },
+      post: matchPost
+    }
   }
 }
 

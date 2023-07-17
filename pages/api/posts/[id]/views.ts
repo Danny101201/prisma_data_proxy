@@ -6,6 +6,7 @@ export default async function handle(
   res: NextApiResponse,
 ) {
   const postId = req.query.id
+  // const postId = req.query.id
   if (req.method === 'PUT') {
     const post = await prisma.post.update({
       where: {
@@ -13,9 +14,9 @@ export default async function handle(
       },
       data: {
         views: {
-          increment: 1,
-        },
-      },
+          increment: 1
+        }
+      }
     })
 
     res.json({ id: post.id, views: post.views })

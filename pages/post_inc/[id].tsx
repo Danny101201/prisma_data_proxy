@@ -6,23 +6,37 @@ import { deletePost, incrementLikes, incrementViews, submitComment } from '../..
 import prisma from 'lib/prisma'
 
 // This function gets called at build time
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   // Fetch existing posts from the database
+//   const posts = await prisma.post.findMany({
+//     select: {
+//       id: true,
+//     },
+//   })
+
+//   // Get the paths we want to pre-render based on posts
+//   const paths = posts.map((post) => ({
+//     params: { id: String(post.id) },
+//   }))
+
+//   return {
+//     paths,
+//     // If an ID is requested that isn't defined here, fallback will incrementally generate the page
+//     fallback: true,
+//   }
+// }
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Fetch existing posts from the database
   const posts = await prisma.post.findMany({
     select: {
-      id: true,
-    },
+      id: true
+    }
   })
 
-  // Get the paths we want to pre-render based on posts
-  const paths = posts.map((post) => ({
-    params: { id: String(post.id) },
-  }))
-
   return {
-    paths,
-    // If an ID is requested that isn't defined here, fallback will incrementally generate the page
-    fallback: true,
+    paths: posts.map((post) => (
+      { params: { id: String(post.id) } }
+    )),
+    fallback: true
   }
 }
 
@@ -30,15 +44,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const matchedPost = await prisma.post.findUnique({
     where: {
-      id: Number(params?.id),
+      id: Number(params?.id)
     },
     include: {
       comments: {
         orderBy: {
-          id: 'asc',
-        },
-      },
-    },
+          id: "desc"
+        }
+      }
+    }
   })
 
   return {

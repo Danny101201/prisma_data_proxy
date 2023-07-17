@@ -1,3 +1,4 @@
+
 export const seedPosts = [
   {
     title: 'What is the Prisma schema?',
@@ -32,5 +33,5 @@ export const seedPosts = [
     excerpt: 'See how you can develop and ship faster with Next.js',
     comments: ['Love Next.js', 'Next.js reduced our development time by 50%!'],
   },
-  
+
 ]

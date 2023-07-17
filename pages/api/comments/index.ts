@@ -13,12 +13,13 @@ export default async function handle(
     const createdComment = await prisma.comment.create({
       data: {
         comment,
-        post: {
-          connect: {
-            id: postId,
-          },
-        },
-      },
+        postId: postId
+        // post: {
+        //   connect: {
+        //     id: postId
+        //   }
+        // }
+      }
     })
     res.json(createdComment)
   } else {

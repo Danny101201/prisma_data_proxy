@@ -9,6 +9,7 @@ let CreateCommentTrend = new Trend('Create comment', true)
 let LikePostTrend = new Trend('Like post', true)
 let ViewPostTrend = new Trend('View post', true)
 
+
 export let options = {
   vus: 40,
   duration: '10s',
@@ -30,7 +31,7 @@ export default function () {
   group('user flow', function () {
     // Get posts
     let getPostsRes = http.get(`${baseUrl}/posts`)
-    check(getPostsRes, { 'status 200 (get posts)': (r) => r.status == 200 })
+    check(getPostsRes, { 'status 200 (get posts)': (r) => r.status === 200 })
     GetPostsTrend.add(getPostsRes.timings.duration)
 
     sleep(SLEEP_DURATION)

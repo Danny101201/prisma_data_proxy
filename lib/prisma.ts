@@ -17,3 +17,44 @@ const prisma = global.prisma || new PrismaClient({
 if (process.env.NODE_ENV !== 'production') global.prisma = prisma
 
 export default prisma
+
+
+type FunctionParamsType<T extends Function> = T extends (...args: infer A) => any ? A : never
+
+const customErrorFunc = async (model:any, query:any, args:any) => {
+  try {
+    await query(args)
+  } catch (error: any) {
+    if (error.code === 'P2025') {
+      throw new Error(`${model} error`)
+    }
+    throw error;
+  }
+}
+
+const prismaCustomer = (new PrismaClient()).$extends({
+  query: {
+    comment: {
+      async findFirstOrThrow({ model, query, args }) {
+        return await customErrorFunc(model, query, args)
+      },
+      async findUniqueOrThrow({ model, query, args }) {
+        return await customErrorFunc(model, query, args)
+      },
+    },
+    post: {
+      async findFirstOrThrow({ model, query, args }) {
+        return await customErrorFunc(model, query, args)
+      },
+      async findUniqueOrThrow({ model, query, args }) {
+        return await customErrorFunc(model, query, args)
+      },
+    },
+  },
+})
+
+// prismaCustomer.post.findFirstOrThrow({
+//   where: {
+//     id: 1000
+//   }
+// }).then(console.log)
